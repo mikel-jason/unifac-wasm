@@ -2,11 +2,40 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>UNIFAC wasm</title>
+    <title>wasm test</title>
+    <script src="bootstrap.js"></script>
   </head>
   <body>
     <noscript>This page contains webassembly and javascript content, please enable javascript in your browser.</noscript>
-    <h1>Loaded</h1>
-    <script src="./bootstrap.js"></script>
+    <h1>UNIFAC wasm test</h1>
+    <h4>Input:</h4>
+    <label for="yml">Insert yaml</label><br />
+    <textarea id="yml" name="yml" rows="20" cols="50">
+temperature: 298
+substances:
+  ethanole:
+    fraction: 0.5
+    groups:
+      - "1:2"
+      - "2:1"
+      - "14:1"
+  benzene:
+    fraction: 0.5
+    groups:
+      - "9:6"
+    </textarea><br />
+    <button id="btn">Run</button>
+    <hr />
+    <h4>Output:</h4>
+    <table id="results">
+      <thead>
+        <tr>
+          <th>Substance</th>
+          <th>Activity coefficient</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
   </body>
 </html>
