@@ -1,6 +1,24 @@
 import * as unifac from "unifac-wasm"
 import * as yaml from "js-yaml"
 
+function download(data, filename, type) {
+    var file = new Blob([data], {type: type});
+    if (window.navigator.msSaveOrOpenBlob) // IE10+
+        window.navigator.msSaveOrOpenBlob(file, filename);
+    else { // Others
+        var a = document.createElement("a"),
+                url = URL.createObjectURL(file);
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }, 0);
+    }
+}
+
 const clearResults = function () {
     let table = document.getElementById('results')
     // row 0 is header
@@ -45,5 +63,42 @@ const click = function () {
     }
 }
 
+const click_measurement = function () {
+    clearResults()
+
+    let content = document.getElementById('yml').value
+    let yml = yaml.load(content)
+    try {
+        const tempdifferences = yml.difftemp
+        const fractions = yml.fractions
+        let result_text = ""
+
+        for (let j = 0; j < 1000; j++) {
+            const temperature = yml.temperature + tempdifferences[j]
+            let mix = new unifac.Mixture(temperature)
+            let substances = Object.values(yml.substances)
+            for (let i = 0; i < substances.length; i++) {
+                let s = new unifac.Substance(fractions[j][i])
+                substances[i].groups.forEach(group => {
+                    let spl = group.split(":")
+                    s.add_functional_group(parseInt(spl[0]), parseFloat(spl[1]))
+                })
+                mix.add_substance(s)
+            }
+
+            let res = mix.time_calc1000()
+            console.log(j + ", " + res)
+            result_text += j + ", " + res + "\n"
+        }
+
+        download(result_text, "measurement", "csv")
+
+    } catch (e) {
+        clearResults()
+        console.error("Error when calculating UNIFAC", e)
+    }
+}
+
 
 document.getElementById('btn').addEventListener('click', click)
+document.getElementById('btnm').addEventListener('click', click_measurement)

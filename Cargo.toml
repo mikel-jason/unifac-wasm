@@ -13,3 +13,11 @@ crate-type = ["cdylib", "rlib"]
 unifac = { path = "../unifac" } #"0.1.1"
 wasm-bindgen = "0.2.70"
 js-sys = "0.3.46"
+
+[dependencies.web-sys]
+version = "0.3"
+features = [
+    "console",
+    "Window",
+    "Performance"
+]

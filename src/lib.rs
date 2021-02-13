@@ -1,4 +1,26 @@
+#![feature(test)]
+
+extern crate web_sys;
+use web_sys::console;
+
 use wasm_bindgen::prelude::*;
+
+pub struct Timer<'a> {
+    name: &'a str,
+}
+
+impl<'a> Timer<'a> {
+    pub fn new(name: &'a str) -> Timer<'a> {
+        console::time_with_label(name);
+        Timer { name }
+    }
+}
+
+impl<'a> Drop for Timer<'a> {
+    fn drop(&mut self) {
+        console::time_end_with_label(self.name);
+    }
+}
 
 #[wasm_bindgen]
 #[derive(Debug, Clone)]
@@ -49,6 +71,20 @@ impl Mixture {
             }
             Err(_) => js_sys::Array::new(),
         }
+
+    }
+
+    #[wasm_bindgen]
+    pub fn time_calc1000(&self) -> js_sys::Number {
+        console::log_1(&"Time calc".into());
+        let window = web_sys::window().expect("Error finding window");
+        let performance = window.performance().expect("Error getting performance");
+        let start = performance.now();
+        for _ in 0..10_000 {
+            console::log_1(&"Looping".into());
+            std::hint::black_box(self.calc());
+        }
+        return js_sys::Number::from(performance.now() - start);
     }
 }
 
