@@ -68,32 +68,47 @@ const click_measurement = function () {
 
     let content = document.getElementById('yml').value
     let yml = yaml.load(content)
+    let k = 0 
+    let j = 0
     try {
         const tempdifferences = yml.difftemp
         const fractions = yml.fractions
         let result_text = ""
 
-        for (let j = 0; j < 1000; j++) {
-            const temperature = yml.temperature + tempdifferences[j]
-            let mix = new unifac.Mixture(temperature)
-            let substances = Object.values(yml.substances)
-            for (let i = 0; i < substances.length; i++) {
-                let s = new unifac.Substance(fractions[j][i])
-                substances[i].groups.forEach(group => {
-                    let spl = group.split(":")
-                    s.add_functional_group(parseInt(spl[0]), parseFloat(spl[1]))
-                })
-                mix.add_substance(s)
-            }
+        for (k = 3; k < 1000; k++) {
+            //let subtext = ""
+            let start = performance.now()
+            console.log("Start k " + k)
+            for (j = 2; j < 1000; j++) {
+                //console.log("Start j " + j)
+                const temperature = yml.temperature + tempdifferences[j]
+                let mix = new unifac.Mixture(temperature)
+                let substances = Object.values(yml.substances)
+                for (let i = 0; i < substances.length; i++) {
+                    let s = new unifac.Substance(fractions[j][i])
+                    substances[i].groups.forEach(group => {
+                        let spl = group.split(":")
+                        s.add_functional_group(parseInt(spl[0]), parseFloat(spl[1]))
+                    })
+                    mix.add_substance(s)
+                }
 
-            let res = mix.time_calc1000()
-            console.log(j + ", " + res)
-            result_text += j + ", " + res + "\n"
+                //console.log("Setup done j " + j)
+
+                let res = mix.calc()
+                //subtext += res[0] + " "
+                //result_text += j + ", " + res + "\n"
+                //console.log("Calc done j " + j)
+            }
+            let time = performance.now() - start
+            console.log(k + ": " + time)
+            result_text += k + ", " + time + "\n"
         }
 
         download(result_text, "measurement", "csv")
 
     } catch (e) {
+        console.log("$ " +  k + " " + j)
         clearResults()
         console.error("Error when calculating UNIFAC", e)
     }
