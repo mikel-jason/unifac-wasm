@@ -122,5 +122,6 @@ function render(scene) {
     rendering.stop();
     rendering = null;
   }
-  rendering = new State(scene.render(parseInt(concurrency.value), pool));
+  // rendering = new State(scene.render(parseInt(concurrency.value), pool));
+  rendering = scene.unifac_test(parseInt(concurrency.value) , pool)
 }

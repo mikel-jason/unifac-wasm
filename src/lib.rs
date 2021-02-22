@@ -105,6 +105,46 @@ impl Scene {
             width,
         })
     }
+
+    pub fn unifac_test(
+        self,
+        concurrency: usize,
+        pool: &pool::WorkerPool,
+    )  { // -> Result<String, JsValue>
+
+        let thread_pool = rayon::ThreadPoolBuilder::new()
+            .num_threads(concurrency)
+            .spawn_handler(|thread| Ok(pool.run(|| thread.run()).unwrap()))
+            .build()
+            .unwrap();
+
+        // And now execute the render! The entire render happens on our worker
+        // threads so we don't lock up the main thread, so we ship off a thread
+        // which actually does the whole rayon business. When our returned
+        // future is resolved we can pull out the final version of the image.
+        let (tx, rx) = oneshot::channel();
+        pool.run(move || {
+            let mut res: String = "Init'ed".to_string();
+            thread_pool.install(|| {
+                let vec = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+                let vec_pow: Vec<i32> = vec.par_iter().map(|i| i32::pow(*i, 4)).collect();
+                res = format!("Total is {}", vec_pow.iter().sum::<i32>());
+                log(res.as_str());
+            });
+            drop(tx.send(res));
+        }).unwrap();
+
+        /*
+        let done = async move {
+            match rx.await {
+                Ok(res) => Ok(res),
+                Err(_) => Err(JsValue::undefined()),
+            }
+        };
+
+        Ok(wasm_bindgen_futures::future_to_promise(done))
+         */
+    }
 }
 
 #[wasm_bindgen]
