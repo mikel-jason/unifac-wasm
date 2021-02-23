@@ -1,0 +1,22 @@
+{
+  "name": "unifac-wasm",
+  "version": "0.1.0",
+  "contributors": [
+    "Mikel Muennekhoff <mmuennekhoff+github@gmail.com>",
+    "Peter Heringer <heringer@protonmail.com>"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "start": "webpack-dev-server"
+  },
+  "dependencies": {
+    "js-yaml": "^4.0.0"
+  },
+  "devDependencies": {
+    "webpack": "^4.29.3",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.5",
+    "copy-webpack-plugin": "^5.0.0"
+  }
+}

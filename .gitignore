@@ -1,8 +1,9 @@
-
+pkg/
 .idea/
+*.iml
 
-# Created by https://www.toptal.com/developers/gitignore/api/windows,macos,linux,rust,visualstudiocode,vim,intellij
-# Edit at https://www.toptal.com/developers/gitignore?templates=windows,macos,linux,rust,visualstudiocode,vim,intellij
+# Created by https://www.toptal.com/developers/gitignore/api/windows,macos,linux,visualstudiocode,vim,intellij,rust
+# Edit at https://www.toptal.com/developers/gitignore?templates=windows,macos,linux,visualstudiocode,vim,intellij,rust
 
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
