@@ -17,7 +17,7 @@ futures-channel-preview = "0.3.0-alpha.18"
 wasm-bindgen = { version = "0.2.70", features = ['serde-serialize'] }
 wasm-bindgen-futures = "0.4.20"
 
-unifac = { path = "../unifac" } #"0.1.1"
+unifac = "0.1"
 
 [dependencies.web-sys]
 version = "0.3.23"
