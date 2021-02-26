@@ -11,6 +11,7 @@
     "start": "webpack-dev-server"
   },
   "dependencies": {
+    "dependencies": "^0.0.1",
     "js-yaml": "^4.0.0",
     "unifac-wasm": "file:../pkg"
   },

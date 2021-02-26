@@ -48,10 +48,9 @@ impl Mixture {
     }
 
     #[wasm_bindgen]
-    pub fn add_substance(&mut self, substance: Substance) -> Self {
+    pub fn add_substance(&mut self, substance: Substance) {
         let s = unifac::Substance::from(substance.fraction, substance.functional_groups);
         self.substances.push(s);
-        self.clone()
     }
 
     #[wasm_bindgen]
@@ -100,10 +99,10 @@ impl Substance {
     }
 
     #[wasm_bindgen]
-    pub fn add_functional_group(&mut self, id: u8, nu: f64) -> Self {
+    pub fn add_functional_group(&mut self, id: u8, nu: f64) {
         let fg = unifac::FunctionalGroup::from(id, nu).expect("FG add_functional_group");
         self.functional_groups.push(fg);
-        self.clone()
+        //self.fraction = nu * (id as f64) + (nu as u8 * id / (id + 2)) as f64;
     }
 
     #[wasm_bindgen]

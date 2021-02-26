@@ -1,3 +1,5 @@
+'use strict';
+
 import * as unifac from "unifac-wasm"
 import * as yaml from "js-yaml"
 
@@ -73,35 +75,34 @@ const click_measurement = function () {
     try {
         const tempdifferences = yml.difftemp
         const fractions = yml.fractions
+        let substances = Object.values(yml.substances)
         let result_text = ""
+        let mixes = []
 
-        for (k = 3; k < 1000; k++) {
-            //let subtext = ""
+        for (j = 0; j < 1000; j++) {
+            const temperature = yml.temperature + tempdifferences[j]
+            let mix = new unifac.Mixture(207.03)
+            for (let i = 0; i < substances.length; i++) {
+                let s = (new unifac.Substance(fractions[j % 1000][i]))
+                substances[i].groups.forEach(group => {
+                    let spl = group.split(":")
+                    s.add_functional_group(parseInt(spl[0]), parseFloat(spl[1]))
+                })
+                mix.add_substance(s)
+                mixes.push(mix)
+            }
+        }
+        console.log("Setup finished");
+
+        for (k = 0; k < 1000; k++) {
+            let subtext = ""
             let start = performance.now()
-            console.log("Start k " + k)
-            for (j = 2; j < 1000; j++) {
-                //console.log("Start j " + j)
-                const temperature = yml.temperature + tempdifferences[j]
-                let mix = new unifac.Mixture(temperature)
-                let substances = Object.values(yml.substances)
-                for (let i = 0; i < substances.length; i++) {
-                    let s = new unifac.Substance(fractions[j][i])
-                    substances[i].groups.forEach(group => {
-                        let spl = group.split(":")
-                        s.add_functional_group(parseInt(spl[0]), parseFloat(spl[1]))
-                    })
-                    mix.add_substance(s)
-                }
-
-                //console.log("Setup done j " + j)
-
-                let res = mix.calc()
-                //subtext += res[0] + " "
-                //result_text += j + ", " + res + "\n"
-                //console.log("Calc done j " + j)
+            for (j = 0; j < 1000; j++) {
+                let res = mixes[j].calc()
+                subtext += res[0] + " "
+                result_text += j + ", " + res + "\n"
             }
             let time = performance.now() - start
-            console.log(k + ": " + time)
             result_text += k + ", " + time + "\n"
         }
 
