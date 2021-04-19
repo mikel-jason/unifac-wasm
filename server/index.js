@@ -1,7 +1,7 @@
 'use strict';
 
-import * as unifac from "unifac-wasm"
 import * as yaml from "js-yaml"
+import * as unifac from "unifac-wasm"
 
 function download(data, filename, type) {
     var file = new Blob([data], {type: type});
