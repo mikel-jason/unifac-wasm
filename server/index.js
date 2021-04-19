@@ -79,9 +79,9 @@ const click_measurement = function () {
         let result_text = ""
         let mixes = []
 
-        for (j = 0; j < 1000; j++) {
+        for (j = 0; j < 10000; j++) {
             const temperature = yml.temperature + tempdifferences[j]
-            let mix = new unifac.Mixture(207.03)
+            let mix = new unifac.Mixture(temperature)
             for (let i = 0; i < substances.length; i++) {
                 let s = (new unifac.Substance(fractions[j % 1000][i]))
                 substances[i].groups.forEach(group => {
@@ -89,24 +89,24 @@ const click_measurement = function () {
                     s.add_functional_group(parseInt(spl[0]), parseFloat(spl[1]))
                 })
                 mix.add_substance(s)
-                mixes.push(mix)
             }
+            mixes.push(mix)
         }
         console.log("Setup finished");
 
         for (k = 0; k < 1000; k++) {
-            let subtext = ""
             let start = performance.now()
-            for (j = 0; j < 1000; j++) {
+            for (j = 0; j < 10000; j++) {
                 let res = mixes[j].calc()
-                subtext += res[0] + " "
-                result_text += j + ", " + res + "\n"
             }
             let time = performance.now() - start
             result_text += k + ", " + time + "\n"
+            if (k % 100 == 0) {
+                console.log(k)
+            } 
         }
 
-        download(result_text, "measurement", "csv")
+        download(result_text, "old_measurement.csv", "csv")
 
     } catch (e) {
         console.log("$ " +  k + " " + j)
