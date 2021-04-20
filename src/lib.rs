@@ -2,8 +2,8 @@ use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
 pub fn convert(input: String) -> js_sys::JsString {
-    let json_from_yaml = serde_yaml::from_str::<serde_json::Value>(&input).unwrap();
-    js_sys::JsString::from(json_from_yaml.as_str().unwrap())
+    let json_from_yaml = serde_yaml::from_str::<serde_json::Value>(&input).expect("Converting error");
+    js_sys::JsString::from(json_from_yaml.as_str().expect("Converting string"))
 }
 
 #[wasm_bindgen]

@@ -69,7 +69,8 @@ const click = function () {
     clearResults()
 
     let content = document.getElementById('yml').value
-    let yml = yaml.load(content)
+    let jsonres = unifac.convert(content);
+    let yml = JSON.parse(jsonres);
     try {
 
         const temperature = yml.temperature
