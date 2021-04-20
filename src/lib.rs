@@ -1,6 +1,17 @@
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
+pub fn convert(input: String) -> js_sys::JsString {
+    let json_from_yaml = serde_yaml::from_str::<serde_json::Value>(&input).unwrap();
+    js_sys::JsString::from(json_from_yaml.as_str().unwrap())
+}
+
+#[wasm_bindgen]
+pub fn add(a: u32, b: u32) -> u32 {
+    a + b
+}
+
+#[wasm_bindgen]
 #[derive(Debug, Clone)]
 pub struct Substance {
     pub fraction: f64,

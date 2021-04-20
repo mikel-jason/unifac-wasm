@@ -1,4 +1,4 @@
-import * as unifac from "../pkg/unifac_wasm.js";
+import * as unifac from "./pkg/unifac_wasm.js";
 //import * as yaml from "js-yaml"
 
 // Use ES module import syntax to import functionality from the module
@@ -8,7 +8,7 @@ import * as unifac from "../pkg/unifac_wasm.js";
 // will "boot" the module and make it ready to use. Currently browsers
 // don't support natively imported WebAssembly as an ES module, but
 // eventually the manual initialization won't be required!
-import init, { add } from '../pkg/unifac_wasm.js';
+import init, { add } from './pkg/unifac_wasm.js';
 
 async function run() {
 // First up we need to actually load the wasm file, so we use the
