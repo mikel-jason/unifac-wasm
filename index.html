@@ -13,18 +13,25 @@
     <h4>Input:</h4>
     <label for="yml">Insert yaml</label><br />
     <textarea id="yml" name="yml" rows="20" cols="50">
-temperature: 298
-substances:
-  ethanole:
-    fraction: 0.5
-    groups:
-      - "1:2"
-      - "2:1"
-      - "14:1"
-  benzene:
-    fraction: 0.5
-    groups:
-      - "9:6"
+{
+  "temperature": 298,
+  "substances": {
+    "ethanole": {
+      "fraction": 0.5,
+      "groups": [
+        "1:2",
+        "2:1",
+        "14:1"
+      ]
+    },
+    "benzene": {
+      "fraction": 0.5,
+      "groups": [
+        "9:6"
+      ]
+    }
+  }
+}
     </textarea><br />
     <button id="btn">Run</button>
     <hr />

@@ -1,10 +1,12 @@
 use wasm_bindgen::prelude::*;
 
-#[wasm_bindgen]
-pub fn convert(input: String) -> js_sys::JsString {
-    let json_from_yaml = serde_yaml::from_str::<serde_json::Value>(&input).expect("Converting error");
-    js_sys::JsString::from(json_from_yaml.as_str().expect("Converting string"))
-}
+pub use wasm_bindgen_rayon::init_thread_pool;
+
+// #[wasm_bindgen]
+// pub fn convert(input: String) -> js_sys::JsString {
+//     let json_from_yaml = serde_yaml::from_str::<serde_json::Value>(&input).expect("Converting error");
+//     js_sys::JsString::from(json_from_yaml.as_str().expect("Converting string"))
+// }
 
 #[wasm_bindgen]
 pub fn add(a: u32, b: u32) -> u32 {

@@ -6,19 +6,11 @@ Demo setup and web app for Rust [unifac](https://github.com/sarcaustech/unifac) 
 
 ## Prerequisites
 - Rust and Cargo ([install](https://doc.rust-lang.org/cargo/getting-started/installation.html))
-- Node and npm ([install](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm))
+- Python ([install](https://wiki.python.org/moin/BeginnersGuide/Download)
 - wasm-pack ([install](https://rustwasm.github.io/wasm-pack/installer/))
 
 ## Installation
-- Clone [unifac](https://github.com/sarcaustech/unifac) repo if you haven't yet
-```
-git clone https://github.com/sarcaustech/unifac.git
-```
-- Checkout unifac's commit `4711916` (see [Why do I have to checkout this special commit?](#why-do-i-have-to-checkout-this-special-commit))
-```
-cd unifac && git checkout 4711916 && cd ..
-```
-- Clone this repo in the same parent directory as unifac 
+- Clone this repo 
 ```
 git clone https://github.com/sarcaustech/unifac-wasm.git
 ```
@@ -28,21 +20,13 @@ cd unifac-wasm
 ```
 - Build the wasm package 
 ```
-wasm-pack build
-```
-- Go into server directory 
-```
-cd server
-```
-- Install dependencies 
-```
-npm install
+wasm-pack build --target web
 ```
 - Run server 
 ```
-npm start
+python -m http.server 8080
 ```
-- From now on, changes to the files loaded by the webpack server are detected and the frontend reloads automatically. When changing the crate, rebuild the wasm package using `wasm-pack build`.
+- From now on, changes to the files loaded by the webpack server are detected and the frontend reloads automatically. When changing the crate, rebuild the wasm package using `wasm-pack build --target web`.
 
 ## Usage
 
