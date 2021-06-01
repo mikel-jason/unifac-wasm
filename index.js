@@ -1,6 +1,24 @@
 import * as unifac from "./pkg/unifac_wasm.js";
 //import * as yaml from "js-yaml"
 
+function download(data, filename, type) {
+    var file = new Blob([data], {type: type});
+    if (window.navigator.msSaveOrOpenBlob) // IE10+
+        window.navigator.msSaveOrOpenBlob(file, filename);
+    else { // Others
+        var a = document.createElement("a"),
+                url = URL.createObjectURL(file);
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }, 0);
+    }
+}
+
 // Use ES module import syntax to import functionality from the module
 // that we have compiled.
 //
@@ -98,5 +116,59 @@ const click = function () {
     }
 }
 
+const click_measurement = function () {
+    clearResults()
+
+    let content = document.getElementById('yml').value
+    let yml = JSON.parse(content)
+    let k = 0 
+    let j = 0
+    try {
+        const tempdifferences = yml.difftemp
+        const fractions = yml.fractions
+        let substances = Object.values(yml.substances)
+        let result_text = ""
+        let mixes = []
+
+        for (j = 0; j < 10000; j++) {
+            const temperature = yml.temperature + tempdifferences[j]
+            let mix = new unifac.Mixture(temperature)
+            for (let i = 0; i < substances.length; i++) {
+                let s = (new unifac.Substance(fractions[j % 1000][i]))
+                substances[i].groups.forEach(group => {
+                    let spl = group.split(":")
+                    s.add_functional_group(parseInt(spl[0]), parseFloat(spl[1]))
+                })
+                mix.add_substance(s)
+            }
+            mixes.push(mix)
+        }
+        console.log("Setup finished");
+
+        for (k = 0; k < 1000; k++) {
+            let start = performance.now()
+            for (j = 0; j < 10000; j++) {
+                let res = mixes[j].calc()
+            }
+            let time = performance.now() - start
+            result_text += k + ", " + time + "\n"
+            if (k % 1 == 0) {
+                console.log(k)
+            } 
+            if ((k + 1) % 50 == 0) {
+                download(result_text, k + "_measurement.csv", "csv")
+            }
+        }
+
+        download(result_text, "old_measurement.csv", "csv")
+
+    } catch (e) {
+        console.log("$ " +  k + " " + j)
+        clearResults()
+        console.error("Error when calculating UNIFAC", e)
+    }
+}
+
 
 document.getElementById('btn').addEventListener('click', click)
+document.getElementById('btnMeasurement').addEventListener('click', click_measurement)
