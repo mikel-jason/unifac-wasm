@@ -119,6 +119,14 @@ const click = function () {
 const click_measurement = function () {
     clearResults()
 
+    let runs = parseInt(document.getElementById('runs').value)
+    console.log("runs: " + runs)
+
+    if(runs === NaN || runs === undefined || runs <= 0) {
+        console.error("Invalid number of runs: " + runs)
+        return;
+    }
+
     let content = document.getElementById('yml').value
     let yml = JSON.parse(content)
     let k = 0 
@@ -145,7 +153,7 @@ const click_measurement = function () {
         }
         console.log("Setup finished");
 
-        for (k = 0; k < 1000; k++) {
+        for (k = 0; k < runs; k++) {
             let start = performance.now()
             for (j = 0; j < 10000; j++) {
                 let res = mixes[j].calc()
