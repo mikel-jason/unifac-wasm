@@ -6,8 +6,8 @@ Demo setup and web app for Rust [unifac](https://github.com/sarcaustech/unifac) 
 
 ## Prerequisites
 - Rust and Cargo ([install](https://doc.rust-lang.org/cargo/getting-started/installation.html))
-- Python ([install](https://wiki.python.org/moin/BeginnersGuide/Download)
 - wasm-pack ([install](https://rustwasm.github.io/wasm-pack/installer/))
+- Node & npm  ([install](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm))
 
 ## Installation
 - Clone this repo 
@@ -22,11 +22,15 @@ cd unifac-wasm
 ```
 wasm-pack build --target web
 ```
-- Run server 
+- Install server dependencies 
 ```
-python -m http.server 8080
+npm install
 ```
-- From now on, changes to the files loaded by the webpack server are detected and the frontend reloads automatically. When changing the crate, rebuild the wasm package using `wasm-pack build --target web`.
+- Launch server
+```
+npm start
+```
+
 
 ## Usage
 

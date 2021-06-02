@@ -1,0 +1,22 @@
+{
+  "name": "unifac-wasm",
+  "version": "1.0.0",
+  "description": "Demo setup and web app for Rust [unifac](https://github.com/sarcaustech/unifac) crate as WebAssembly app.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sarcaustech/unifac-wasm.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sarcaustech/unifac-wasm/issues"
+  },
+  "homepage": "https://github.com/sarcaustech/unifac-wasm#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
